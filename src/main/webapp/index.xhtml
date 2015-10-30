@@ -25,12 +25,12 @@ TITULO
 						</h:form>
 						<p:dataTable value="#{statusBean.statusList}"
 							emptyMessage="Vacia" var="caracteristica">
-							<p:column headerText="id">
-								<h:outputText value="#{caracteristica.id}" />
-							</p:column>
 							<p:column
 								headerText="des">
 								<h:outputText value="#{caracteristica.description}" />
+							</p:column>
+							<p:column headerText="id">
+								<h:outputText value="#{caracteristica.id}" />
 							</p:column>
 						</p:dataTable>
 					</article>
