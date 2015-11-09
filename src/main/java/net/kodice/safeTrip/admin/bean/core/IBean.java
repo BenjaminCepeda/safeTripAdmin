@@ -19,8 +19,6 @@ public interface IBean {
 	
 	public void edit();
 	
-	public void save();
-
 	public void remove();
 	
 	public String select(Object o);

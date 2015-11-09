@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 
 import javax.persistence.*;
 
+import net.kodice.safeTrip.admin.model.core.GenericModel;
+
 /**
  * The persistent class for the "socialNetwork" database table.
  * 
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "\"socialNetwork\"", schema = "configuration")
 @NamedQuery(name = "SocialNetwork.findAll", query = "SELECT s FROM SocialNetwork s")
-public class SocialNetwork implements Serializable {
+public class SocialNetwork extends GenericModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

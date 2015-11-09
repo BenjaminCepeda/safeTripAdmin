@@ -13,6 +13,6 @@
 		<class>net.kodice.safeTrip.admin.model.Status</class>
 		<class>net.kodice.safeTrip.admin.model.TripType</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
-		<properties />
+		<properties/>
 	</persistence-unit>
 </persistence>

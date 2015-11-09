@@ -45,8 +45,7 @@ public class StatusBean extends GenericBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		status = new Status();
-		statusList = new ArrayList<Status>();
-		setEditMode(Boolean.FALSE);
+		status.setEditable(Boolean.FALSE);
 		load();
 		System.out.println(status.toString());
 		sendMessage(msgLevel.INFO, "general.mensaje","");
@@ -64,7 +63,13 @@ public class StatusBean extends GenericBean implements Serializable {
 
 	@Override
 	public void create() {
-		// TODO Auto-generated method stub
+		try {
+			statusDao.create((Status) status);
+			this.init();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 
 	}
 
@@ -73,7 +78,7 @@ public class StatusBean extends GenericBean implements Serializable {
 		try {
 			statusDao.edit((Status) status);
 			this.init();
-			setEditMode(Boolean.FALSE);
+			status.setEditable(Boolean.FALSE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -81,23 +86,12 @@ public class StatusBean extends GenericBean implements Serializable {
 
 
 	public String edit(Status status) {
-		setEditMode(Boolean.FALSE);
+		status.setEditable(Boolean.FALSE);
 		/*
 		 * Here modify or calculate more values
 		 */
 		this.setStatus(status);
 		return "";
-	}
-
-	@Override
-	public void save() {
-		try {
-			statusDao.create((Status) status);
-			this.init();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	@Override

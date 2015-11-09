@@ -2,6 +2,9 @@ package net.kodice.safeTrip.admin.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import net.kodice.safeTrip.admin.model.core.GenericModel;
+
 import java.util.List;
 import java.lang.reflect.Field;
 
@@ -12,7 +15,7 @@ import java.lang.reflect.Field;
 @Entity
 @Table(name = "\"relatedTable\"", schema = "configuration")
 @NamedQuery(name = "RelatedTable.findAll", query = "SELECT r FROM RelatedTable r")
-public class RelatedTable implements Serializable {
+public class RelatedTable extends GenericModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

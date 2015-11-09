@@ -11,7 +11,7 @@ package net.kodice.safeTrip.admin.bean.core;
  */
 public abstract class GenericBean  implements IBean {
 
-	private boolean isEditMode;
+/*	private boolean isEditMode;
 	
 	public boolean isEditMode() {
 		return isEditMode;
@@ -20,5 +20,5 @@ public abstract class GenericBean  implements IBean {
 	public void setEditMode(boolean isEditMode) {
 		this.isEditMode = isEditMode;
 	}
-
+*/
 }

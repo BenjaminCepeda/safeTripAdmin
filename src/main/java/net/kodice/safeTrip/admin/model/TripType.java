@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 
 import javax.persistence.*;
 
+import net.kodice.safeTrip.admin.model.core.GenericModel;
+
 /**
  * The persistent class for the "tripType" database table.
  * 
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "\"tripType\"", schema = "configuration")
 @NamedQuery(name = "TripType.findAll", query = "SELECT t FROM TripType t")
-public class TripType implements Serializable {
+public class TripType extends GenericModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

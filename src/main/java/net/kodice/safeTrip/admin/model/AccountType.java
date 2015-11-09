@@ -2,7 +2,10 @@ package net.kodice.safeTrip.admin.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Timestamp;
+
+import net.kodice.safeTrip.admin.model.core.GenericModel;
+
+import java.util.Date;
 import java.lang.reflect.Field;
 
 /**
@@ -12,11 +15,11 @@ import java.lang.reflect.Field;
 @Entity
 @Table(name = "\"accountType\"", schema = "configuration")
 @NamedQuery(name = "AccountType.findAll", query = "SELECT a FROM AccountType a")
-public class AccountType implements Serializable {
+public class AccountType extends GenericModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "ACCOUNTTYPE_ID_GENERATOR", sequenceName = "accountType_id_seq")
+	@SequenceGenerator(name = "ACCOUNTTYPE_ID_GENERATOR", sequenceName = "\"accountType_id_seq\"")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTTYPE_ID_GENERATOR")
 	@Column(unique = true, nullable = false)
 	private Integer id;
@@ -24,21 +27,34 @@ public class AccountType implements Serializable {
 	@Column(length = 50)
 	private String description;
 
-	private Boolean enabled;
-
-	private Timestamp from;
-
 	@Column(name = "\"hasValidityPeriod\"")
 	private Boolean hasValidityPeriod;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "\"from\"")
+	private Date from;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "\"to\"")
+	private Date to;
 
 	@Column(length = 50)
 	private String image;
 
+	@Column(name = "\"order\"")
 	private Integer order;
 
-	private Timestamp to;
+	private Boolean enabled;
 
 	public AccountType() {
+		id = null;
+		description = "";
+		hasValidityPeriod = false;
+		from = null;
+		to = null;
+		image = null;
+		order = null;
+		enabled = false;
 	}
 
 	public Integer getId() {
@@ -65,11 +81,11 @@ public class AccountType implements Serializable {
 		this.enabled = enabled;
 	}
 
-	public Timestamp getFrom() {
+	public Date getFrom() {
 		return this.from;
 	}
 
-	public void setFrom(Timestamp from) {
+	public void setFrom(Date from) {
 		this.from = from;
 	}
 
@@ -97,11 +113,11 @@ public class AccountType implements Serializable {
 		this.order = order;
 	}
 
-	public Timestamp getTo() {
+	public Date getTo() {
 		return this.to;
 	}
 
-	public void setTo(Timestamp to) {
+	public void setTo(Date to) {
 		this.to = to;
 	}
 
@@ -126,6 +142,7 @@ public class AccountType implements Serializable {
 				fieldList += f.getName() + ": " + fieldValue + ", ";
 			}
 		}
+		fieldList += "editable: " + new Boolean(getEditable()).toString();
 		result += (fieldList + "]").replace(", ]", " ]");
 		return result;
 	}

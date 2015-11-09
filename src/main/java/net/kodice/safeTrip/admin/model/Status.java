@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 
 import javax.persistence.*;
 
+import net.kodice.safeTrip.admin.model.core.GenericModel;
+
 
 /**
  * The persistent class for the status database table.
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="status", schema="configuration")
 @NamedQuery(name="Status.findAll", query="SELECT s FROM Status s")
-public class Status implements Serializable {
+public class Status extends GenericModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

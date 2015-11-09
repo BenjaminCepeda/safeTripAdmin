@@ -3,7 +3,6 @@ package net.kodice.safeTrip.admin.dao.core;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-
 /**
  *
  * @author 
