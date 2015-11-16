@@ -87,6 +87,7 @@ public class DeviceType extends GenericModel implements Serializable {
 				fieldList += f.getName() + ": " + fieldValue + ", ";
 			}
 		}
+		fieldList += "editable: " + new Boolean(getEditable()).toString();
 		result += (fieldList + "]").replace(", ]", " ]");
 		return result;
 	}

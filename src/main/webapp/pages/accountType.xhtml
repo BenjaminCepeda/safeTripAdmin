@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -7,37 +8,22 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
-	<title><h:outputText value="#{msg['global.head.title']}" /></title>
-	<script type="text/javascript">
-		function changeHasValidityPeriod(){
-			if (PF('hasValidityPeriodWidget').isChecked()){
-				PF('fromWidget').setDate(new Date());
-				PF('fromWidget').enable();
-				PF('toWidget').setDate(new Date());
-				PF('toWidget').enable();
-			}
-			else{
-				PF('fromWidget').setDate(null);
-				PF('fromWidget').disable();
-				PF('toWidget').setDate(null);
-				//PF('toWidget').disable();
-				
-			}
-		};	
-	</script>
+
 </h:head>
 <h:body>
-	<ui:composition template="/templates/index-template.xhtml">
+	<ui:composition template="/templates/main-template.xhtml">
+		<ui:define name="title">
+			<h:outputText value="#{msg['accountType.page.title']}" />
+			<div>
+				<p:growl id="growlMsg" showDetail="true" />
+			</div>
+		</ui:define>
 		<ui:define name="content">
 			<h:form id="form">
-				<article>
-					<p:commandButton update=":form" process="@form"
-						value="#{msg['global.save']}"
-						action="#{accountTypeBean.initialize}" />
-					<div>
-						<p:growl id="growlMsg" showDetail="true" />
-					</div>
-
+				<div>
+					<p:growl id="growlMsg" showDetail="true" />
+				</div>
+				<div>
 					<p:dataTable id="accountTypeList"
 						value="#{accountTypeBean.accountTypeList}" var="e"
 						rowkey="#{e.id}" editable="true"
@@ -123,12 +109,61 @@
 							</p:cellEditor>
 						</p:column>
 						<p:column>
-							<p:rowEditor />
+							<p:rowEditor>
+								<p:ajaxStatus onstart="enablePeriodDateFields();" />
+							</p:rowEditor>
 						</p:column>
 					</p:dataTable>
-				</article>
+					<p:commandButton value="#{msg['global.new']}" />
+				</div>
+
+				<p:panelGrid  id="newFieldsDiv" widgetVar="newFieldsDivWidget" border="2">
+					<h:outputText value="#{msg['accountType.description']}:" />
+					<h:inputText value="#{accountType.accountType.description}" />
+					<h:outputText value="#{msg['accountType.hasValidityPeriod']}:" />
+					<p:selectBooleanCheckbox id="newHasValidityPeriod"
+						widgetVar="newHasValidityPeriodWidget"
+						value="#{accountType.accountType.hasValidityPeriod}"
+						onchange="newChangeHasValidityPeriod();" />
+					<h:outputText value="#{msg['accountType.from']}:" />
+					<p:calendar id="newFrom" widgetVar="newFromWidget"
+						value="#{accountType.accountType.from}"
+						pattern="#{msg['global.date.pattern']}" />
+					<h:outputText value="#{msg['accountType.to']}:" />
+					<p:calendar id="newTo" value="#{accountType.accountType.to}"
+						widgetVar="newToWidget" pattern="#{msg['global.date.pattern']}" />
+					<h:outputText value="#{msg['accountType.order']}:" />
+					<p:spinner value="#{accountType.accountType.order}"
+						min="#{msg['global.order.min']}" max="#{msg['global.order.max']}" />
+					<h:outputText value="#{msg['accountType.enabled']}:" />
+					<p:selectBooleanCheckbox value="#{accountType.accountType.enabled}" />
+					<p:commandButton value="#{msg['global.save']}" />
+				</p:panelGrid>
 			</h:form>
-			</ui:define>
-			</ui:composition>
+			<script type="text/javascript">
+			function changeHasValidityPeriod(){
+				if (PF('hasValidityPeriodWidget').isChecked()){
+					PF('fromWidget').setDate(new Date());
+					PF('fromWidget').enable();
+					PF('toWidget').setDate(new Date());
+					PF('toWidget').enable();
+				}
+				else{
+					PF('fromWidget').setDate(null);
+					PF('fromWidget').disable();
+					PF('toWidget').setDate(null);
+					PF('toWidget').disable();
+				}
+				return true;
+			}	
+			function enablePeriodDateFields(){
+				PF('fromWidget').enable();
+				PF('toWidget').enable();
+				return true;
+			}	
+			alert(PF('newFieldsDiv'));
+			</script>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<f:view>
+<h:head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<link
+	href="#{facesContext.externalContext.requestContextPath}/resources/css/layout.css"
+	rel="stylesheet" type="text/css"></link>
+<ui:insert name="head" />
+<title>safeTrip Admin</title>
+</h:head>
+<h:body>
+	<div id="wrapper">
+		<header>
+			<h3>Aqui HEADER</h3>	
+		</header>
+		<nav>
+			<h3>Aqui NAV</h3>	
+		</nav>
+		<article>
+			<div id="title">
+				<ui:insert name="title" />
+			</div>
+			<div id="content">
+				<ui:insert name="content" />
+			</div>
+		</article>
+		<footer>
+			<div id="footer">
+			</div>
+		</footer>
+	</div>
+</h:body>
+</f:view>
+</html>
