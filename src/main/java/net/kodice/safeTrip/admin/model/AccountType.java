@@ -19,7 +19,7 @@ public class AccountType extends GenericModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name = "ACCOUNTTYPE_ID_GENERATOR", sequenceName = "\"accountType_id_seq\"")
+	@SequenceGenerator(name = "ACCOUNTTYPE_ID_GENERATOR", sequenceName = "configuration.\"accountType_id_seq\"")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCOUNTTYPE_ID_GENERATOR")
 	@Column(unique = true, nullable = false)
 	private Integer id;

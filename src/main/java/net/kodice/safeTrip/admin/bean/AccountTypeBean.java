@@ -54,7 +54,7 @@ public class AccountTypeBean extends GenericBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		accountType = new AccountType();
-//		accountType.setEditable(Boolean.FALSE);
+		accountType.setEditable(Boolean.FALSE);
 		try {
 			if (accountTypeList == null) {
 				accountTypeList = new ArrayList<AccountType>();
@@ -67,23 +67,10 @@ public class AccountTypeBean extends GenericBean implements Serializable {
 		// sendMessage(msgLevel.INFO, "init.mensaje", "");
 	}
 
-	public void initialize() {
-		accountType = new AccountType();
-//		accountType.setEditable(Boolean.FALSE);
-		try {
-			accountTypeList = new ArrayList<AccountType>();
-			accountTypeList = (List<AccountType>) accountTypeDao.findAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		// System.out.println(accountType.toString());
-		sendMessage(msgLevel.INFO, "init.mensaje", "");
-	}
-
 	@Override
 	public void load() {
 		sendMessage(msgLevel.INFO, "load.mensaje", "");
-
+		accountType.setEditable(Boolean.FALSE);
 		try {
 			accountTypeList = new ArrayList<AccountType>();
 			accountTypeList = (List<AccountType>) accountTypeDao.findAll();
@@ -118,30 +105,32 @@ public class AccountTypeBean extends GenericBean implements Serializable {
 		 * Here modify or calculate more values
 		 */
 		AccountType element = (AccountType) event.getObject();
-		System.out.println("MODIFIed:" + element.toString());
-//		accountType.setEditable(Boolean.TRUE);
-		accountTypeDao.edit(element);
-		System.out.println("EditMode last:" + accountType.toString());
-		System.out.println("EditMode Modified:" + ((AccountType) event.getObject()).toString());
+		System.out.println("onRowEdit:" + element.toString());
+		if (element.getId() == null || element.getId()==0)
+			accountTypeDao.create(element);
+		else
+			accountTypeDao.edit(element);
+		accountType.setEditable(Boolean.FALSE);
+		
 	}
 
-	public void onRowEdit(AccountType accountType1) {
+	public void onRowAdd(ActionEvent actionEvent) {
 		/*
 		 * Here modify or calculate more values
 		 */
-//		accountType.setEditable(Boolean.TRUE);
-		System.out.println("EditMode last:" + accountType.toString());
-		System.out.println("EditMode Modified:" + accountType1.toString());
+		AccountType newAccountType = new AccountType();
+		accountTypeList.add(newAccountType);
+		accountType.setEditable(Boolean.FALSE);
+		System.out.println("onRowAdd:" + ((AccountType) newAccountType).toString());
 	}
 
 	public String onRowCancel(RowEditEvent event) {
-//		accountType.setEditable(Boolean.FALSE);
+		accountType.setEditable(Boolean.FALSE);
 		/*
 		 * Here modify or calculate more values
 		 */
-
-		System.out.println("EditMode last:" + accountType.toString());
-		System.out.println("EditMode Modified:" + ((AccountType) event.getObject()).toString());
+		this.load();
+		System.out.println("onRowCancel:" + ((AccountType) event.getObject()).toString());
 		return null;
 	}
 

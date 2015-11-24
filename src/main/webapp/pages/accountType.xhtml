@@ -8,7 +8,6 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
-
 </h:head>
 <h:body>
 	<ui:composition template="/templates/main-template.xhtml">
@@ -24,13 +23,16 @@
 					<p:growl id="growlMsg" showDetail="true" />
 				</div>
 				<div>
-					<p:dataTable id="accountTypeList"
+					<p:dataTable id="accountTypeDT"
 						value="#{accountTypeBean.accountTypeList}" var="e"
 						rowkey="#{e.id}" editable="true"
 						emptyMessage="#{msg['global.table.empty']}">
-						<p:ajax event="rowEdit" listener="#{accountTypeBean.onRowEdit}"
-							update="@this" />
-						<p:ajax event="rowEditCancel"
+						<p:ajax event="rowEditInit"
+							onstart="enableAddButtons(false);" />
+						<p:ajax event="rowEdit" onstart="enablePeriodDateFields();"
+							oncomplete="enableAddButtons(true);"
+							listener="#{accountTypeBean.onRowEdit}" update="@this" />
+						<p:ajax event="rowEditCancel" oncomplete="enableAddButtons(true);"
 							listener="#{accountTypeBean.onRowCancel}" update="@this" />
 
 						<p:column headerText="#{msg['accountType.id']}">
@@ -55,8 +57,9 @@
 								<f:facet name="input">
 									<p:selectBooleanCheckbox id="hasValidityPeriod"
 										widgetVar="hasValidityPeriodWidget"
-										value="#{e.hasValidityPeriod}"
-										onchange="changeHasValidityPeriod();" />
+										value="#{e.hasValidityPeriod}">
+										<p:ajax onstart="changeHasValidityPeriod();"/>
+									</p:selectBooleanCheckbox>
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -109,60 +112,60 @@
 							</p:cellEditor>
 						</p:column>
 						<p:column>
-							<p:rowEditor>
-								<p:ajaxStatus onstart="enablePeriodDateFields();" />
+							<p:rowEditor id="reAccountType">
 							</p:rowEditor>
 						</p:column>
+						<f:facet name="footer">
+							<p:commandButton id="btnAdd" value="#{msg['global.new']}"
+								widgetVar="btnAddWidget"
+								oncomplete="jQuery('#form\\:accountTypeDT .ui-datatable-data > tr').last().find('span.ui-icon-pencil').click();"
+								actionListener="#{accountTypeBean.onRowAdd}"
+								update="accountTypeDT" />
+							<p:commandButton id="btnCancelAdd"
+								value="#{msg['global.cancel']}" widgetVar="btnAddCancelWidget"
+								actionListener="#{accountTypeBean.load}" update="accountTypeDT" />
+						</f:facet>
 					</p:dataTable>
-					<p:commandButton value="#{msg['global.new']}" />
 				</div>
 
-				<p:panelGrid  id="newFieldsDiv" widgetVar="newFieldsDivWidget" border="2">
-					<h:outputText value="#{msg['accountType.description']}:" />
-					<h:inputText value="#{accountType.accountType.description}" />
-					<h:outputText value="#{msg['accountType.hasValidityPeriod']}:" />
-					<p:selectBooleanCheckbox id="newHasValidityPeriod"
-						widgetVar="newHasValidityPeriodWidget"
-						value="#{accountType.accountType.hasValidityPeriod}"
-						onchange="newChangeHasValidityPeriod();" />
-					<h:outputText value="#{msg['accountType.from']}:" />
-					<p:calendar id="newFrom" widgetVar="newFromWidget"
-						value="#{accountType.accountType.from}"
-						pattern="#{msg['global.date.pattern']}" />
-					<h:outputText value="#{msg['accountType.to']}:" />
-					<p:calendar id="newTo" value="#{accountType.accountType.to}"
-						widgetVar="newToWidget" pattern="#{msg['global.date.pattern']}" />
-					<h:outputText value="#{msg['accountType.order']}:" />
-					<p:spinner value="#{accountType.accountType.order}"
-						min="#{msg['global.order.min']}" max="#{msg['global.order.max']}" />
-					<h:outputText value="#{msg['accountType.enabled']}:" />
-					<p:selectBooleanCheckbox value="#{accountType.accountType.enabled}" />
-					<p:commandButton value="#{msg['global.save']}" />
-				</p:panelGrid>
-			</h:form>
-			<script type="text/javascript">
+				<script type="text/javascript">
 			function changeHasValidityPeriod(){
+				var now;
+				now = new Date();
 				if (PF('hasValidityPeriodWidget').isChecked()){
-					PF('fromWidget').setDate(new Date());
 					PF('fromWidget').enable();
-					PF('toWidget').setDate(new Date());
+					PF('fromWidget').setDate(now);
 					PF('toWidget').enable();
-				}
-				else{
+					PF('toWidget').setDate(now);
+				} else{
 					PF('fromWidget').setDate(null);
 					PF('fromWidget').disable();
 					PF('toWidget').setDate(null);
 					PF('toWidget').disable();
 				}
 				return true;
-			}	
+			};
+
 			function enablePeriodDateFields(){
 				PF('fromWidget').enable();
 				PF('toWidget').enable();
 				return true;
-			}	
-			alert(PF('newFieldsDiv'));
+			};
+				
+			function enableAddButtons(enable){
+				if (enable){
+					PF('btnAddWidget').enable();
+					PF('btnAddCancelWidget').enable();
+				} else {
+					PF('btnAddWidget').disable();
+					PF('btnAddCancelWidget').disable();
+				}
+								return true;
+			};	
 			</script>
+
+			</h:form>
+
 		</ui:define>
 	</ui:composition>
 </h:body>
