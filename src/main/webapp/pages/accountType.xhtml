@@ -14,16 +14,13 @@
 		<ui:define name="title">
 			<h:outputText value="#{msg['accountType.page.title']}" />
 			<div>
-				<p:growl id="growlMsg" showDetail="true" />
+				<p:growl id="grwMessage" showDetail="true" />
 			</div>
 		</ui:define>
 		<ui:define name="content">
-			<h:form id="form">
+			<h:form id="frmMain">
 				<div>
-					<p:growl id="growlMsg" showDetail="true" />
-				</div>
-				<div>
-					<p:dataTable id="accountTypeDT"
+					<p:dataTable id="dttAccountType"
 						value="#{accountTypeBean.accountTypeList}" var="e"
 						rowkey="#{e.id}" editable="true"
 						emptyMessage="#{msg['global.table.empty']}">
@@ -118,12 +115,12 @@
 						<f:facet name="footer">
 							<p:commandButton id="btnAdd" value="#{msg['global.new']}"
 								widgetVar="btnAddWidget"
-								oncomplete="jQuery('#form\\:accountTypeDT .ui-datatable-data > tr').last().find('span.ui-icon-pencil').click();"
+								oncomplete="jQuery('#frmMain\\:dttAccountType .ui-datatable-data > tr').last().find('span.ui-icon-pencil').click();"
 								actionListener="#{accountTypeBean.onRowAdd}"
-								update="accountTypeDT" />
+								update="dttAccountType" />
 							<p:commandButton id="btnCancelAdd"
 								value="#{msg['global.cancel']}" widgetVar="btnAddCancelWidget"
-								actionListener="#{accountTypeBean.load}" update="accountTypeDT" />
+								actionListener="#{accountTypeBean.load}" update="dttAccountType" />
 						</f:facet>
 					</p:dataTable>
 				</div>
